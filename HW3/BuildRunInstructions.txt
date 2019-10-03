@@ -1,0 +1,6 @@
+ Run make in order to compile the two sorts. The executables will be named bubble and merge for bubblesort and mergesort respectively.
+ aka
+
+make
+./bubble
+./merge
