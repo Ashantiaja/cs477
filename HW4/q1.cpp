@@ -13,21 +13,22 @@ Show how your algorithm works on the following input.
  */
 
 template <typename T>
-void almostQuicksort (T* input,
-		      const unsigned int p,
-		      const unsigned int r);
+void algorithm (T* input, const unsigned int p, const unsigned int r);
 
 template <typename T>
-unsigned int partition(T* input,
-		       const unsigned int p,
-		       const unsigned int r);
+void swap(T* input, int a, int b) {
+  T temp = input[a];
+  input[a] = input[b];
+  input[b] = temp;
+}
 
 
 int main() {
 
   vector<float> input = {4, 3, -2, 0, 2, 9,
 			   -1, 10, 0, 5, 23, -4};
-  almostQuicksort(&input[0], 0, input.size());
+  //almostQuicksort(&input[0], 0, input.size());
+  algorithm(&input[0], 0, input.size());
 
   for(int i = 0; i < input.size(); i++) {
     cout << input[i] << " ";
@@ -38,35 +39,31 @@ int main() {
 }
 
 template <typename T>
-void almostQuicksort (T* input,
-		      const unsigned int p,
-		      const unsigned int r) {
-  if (p < r) {
-    unsigned int q = partition(input, p, r);
-    almostQuicksort(input, p, q-1);
-    almostQuicksort(input, q+1, r);
-  }
-}
-
-template <typename T>
-unsigned int partition(T* input,
-		       const unsigned int p,
-		       const unsigned int r) {
-  cout << "Partition call p:" << p << " r:" << r << endl;
-  T pivotVal = input[r];
-  unsigned int i = p-1;
-  for(unsigned int j = p; j <= r-1; j++) {
-    if (input[j] <= pivotVal) {
-      i++;
-      //swap input[i], input[j]
-      T temp = input[i];
-      input[i] = input[j];
-      input[j] = temp;
+void algorithm (T* input, const unsigned int p, const unsigned int r) {
+  int i, j;
+  i = p;
+  j = r-1;
+  while (i < j) {
+    //i+, j+, keep j, switch i)
+    if( (input[i] > 0) && (input[j] > 0) ) {
+      j--;
+      //swap i?
+      swap(input, i, (j-1));
     }
-  } // end for
+    //i-, j-, keep i, switch j
+    else if( (input[i] < 0) && (input[j] < 0) ) {
+      i++;
+      swap(input, j, (i+1));
+    }
+    //i+, j-, switch both
+    else if( (input[i] > 0) && (input[j] < 0) ) {
+      swap(input, i, j);
+      i++;
+      j--;
+    }
+    else { // keep both or just move on
+      i++; j--;
+    }
 
-  T temp = input[i+1];
-  input[i+1] = input[r];
-  input[r] = input [i+1];
-  return i+1;
+  } // end while
 }
