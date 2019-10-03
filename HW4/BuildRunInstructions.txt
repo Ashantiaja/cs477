@@ -1,0 +1,3 @@
+1. run make and then test program
+make
+./test
