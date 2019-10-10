@@ -1,0 +1,5 @@
+Run make and then test program.
+ex.
+
+make
+./test
